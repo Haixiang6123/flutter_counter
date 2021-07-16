@@ -47,6 +47,17 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text('你点击了'),
             Text('$_counter', style: Theme.of(context).textTheme.headline4),
+            TextButton(
+              child: Text('打开页面'),
+              onPressed: () {
+                var result = Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return TipRoute(
+                    text: '我是提示xxxx', key: null,
+                  );
+                }));
+                print('路由返回值: $result');
+              },
+            )
           ],
         ),
       ),
@@ -56,5 +67,28 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class TipRoute extends StatelessWidget {
+  TipRoute({
+    Key? key,
+    this.text = '',  // 接收一个text参数
+  }) : super(key: key);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(title: Text('提示')),
+        body: Padding(
+            padding: EdgeInsets.all(8),
+            child: Center(
+                child: Column(children: <Widget>[
+              Text(text), // 传入的文本
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context, '我是返回值'),
+                  child: Text('返回'))
+            ]))));
   }
 }
